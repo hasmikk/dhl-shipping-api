@@ -92,6 +92,7 @@ if ($response->Status->statusCode == 0 && $response->Status->statusText == 'ok')
     $label = new Label($shipmentNumber);
     $response = $client->call($label);
     $decoded = $response->LabelData->labelData;
+    $file = 'labels/' . $shipmentNumber . '.pdf';
     file_put_contents($file, $decoded);
     header('Content-Description: File Transfer');
     header('Content-Type: application/pdf');
