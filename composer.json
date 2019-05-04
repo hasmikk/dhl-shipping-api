@@ -1,0 +1,29 @@
+{
+  "name": "hasmikk/dhl-shipping-api",
+  "description": "DHL Business customer shipping API to request shipment and generate label",
+  "keywords": [
+    "dhl",
+    "labels",
+    "shipping",
+    "shipment",
+    "soap",
+    "php"
+  ],
+  "type": "package",
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "license": "mit",
+  "authors": [
+    {
+      "name": "Hasmik Karakashyan",
+      "email": "hasmik.karakashyan@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "DHL\\": "src/"
+    }
+  }
+}
