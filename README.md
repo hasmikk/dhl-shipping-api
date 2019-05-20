@@ -19,4 +19,4 @@ DHL Business customer shipping API to request shipments and generate labels
 
  `"php": ">=5.3.0"`
  
- ####[Example usage: Request shipment and get label](https://github.com/hasmikk/dhl-shipping-api/blob/master/tests/test.php)
+ [Example usage: Request shipment and get label](https://github.com/hasmikk/dhl-shipping-api/blob/master/tests/test.php)
