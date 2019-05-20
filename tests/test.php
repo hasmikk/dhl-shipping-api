@@ -1,5 +1,5 @@
-<?php
-require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+﻿<?php
+require_once __DIR__ . '/./vendor/autoload.php'; // Autoload files using Composer autoload
 
 /**
  * Example is for sandbox mode and
