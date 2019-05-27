@@ -9,185 +9,263 @@ namespace DHL\Data;
  */
 class Shipment
 {
-	/**
-	 * Initial shipment information
-	 * @var array
-	 */
-	protected $info = [];
 
-	/**
-	 * Shipment Item information
-	 * @var array
-	 */
-	protected $item = [];
+    protected static $nationalEkp;
 
-	/**
-	 * Shipment service information
-	 * @var array
-	 */
-	protected $service = [];
+    protected static $interNationalEkp;
 
-	/**
-	 * Set notification information
-	 *
-	 * @var array
-	 */
-	protected $notification = '';
+    /**
+     * Natanal shippment country
+     * for German shipper
+     * @var string
+     */
 
-	/**
-	 * Shipment constructor.
-	 *
-	 * @param $info
-	 */
-	public function __construct($info)
-	{
-		$this->info = $info;
-	}
+    const NATIONAL_SHIPP_COUNTRY = 'DE';
 
-	/**
-	 * Prepare shipment item information
-	 *
-	 * @param array $items Items attributes
-	 *
-	 * @return $this  Chainable
-	 */
-	public function item($items)
-	{
-		$this->item['weightInKG']  = $items['weight'];
 
-		if (isset($items['length'])) {
-			$this->item['lengthInCM'] = $items['length'];
-		}
+    /**
+     * DHL Paket product code
+     * for German shipper
+     * @var string
+     */
 
-		if (isset($items['width'])) {
-			$this->item['widthInCM'] = $items['width'];
-		}
+    const NATIONAL_PRODUCT_CODE = 'V01PAK';
 
-		if (isset($items['height'])) {
-			$this->item['heightInCM'] = $items['height'];
-		}
+    /**
+     * DHL Paket International product code
+     * for German shipper
+     * @var string
+     */
 
-		return $this;
-	}
+    const INTERNATIONAL_PRODUCT_CODE = 'V53WPAK';
 
-	/**
-	 * Get shipment items
-	 *
-	 * @return array
-	 */
-	public function getItem()
-	{
-		return $this->item;
-	}
+    /**
+     * Initial shipment information
+     * @var array
+     */
 
-	/**
-	 * This service is an optional
-	 *
-	 * @param  array  $service  Array of service information
-	 *
-	 * @return $this
-	 */
-	public function service($service)
-	{
-		if (isset($service['VisualCheckOfAge']))
-		{
-			$this->service['VisualCheckOfAge'] = ['@active' => 1, '@type' => $service['VisualCheckOfAge']];
-		}
+    protected $info = [];
 
-		if (isset($service['PreferredLocation']))
-		{
-			$this->service['PreferredLocation'] = ['@active' => 1, '@details' => $service['PreferredLocation']];
-		}
+    /**
+     * Shipment Item information
+     * @var array
+     */
+    protected $item = [];
 
-		if (isset($service['PreferredNeighbour']))
-		{
-			$this->service['PreferredNeighbour'] = ['@active' => 1, '@details' => $service['PreferredNeighbour']];
-		}
+    /**
+     * Shipment service information
+     * @var array
+     */
+    protected $service = [];
 
-		if (isset($service['GoGreen']))
-		{
-			$this->service['GoGreen'] = ['@active' => $service['GoGreen']];
-		}
+    /**
+     * Set notification information
+     *
+     * @var array
+     */
+    protected $notification = '';
 
-		if (isset($service['Personally']))
-		{
-			$this->service['Personally'] = ['@active' => $service['Personally']];
-		}
+    /**
+     * Shipment constructor.
+     *
+     * @param $info
+     */
+    public function __construct($info)
+    {
+        $this->info = $info;
+    }
 
-		if (isset($service['CashOnDelivery']))
-		{
-			$this->service['CashOnDelivery'] = ['@active' => 1, '@codAmount' => $service['CashOnDelivery']];
-		}
+    /**
+     * Prepare shipment item information
+     *
+     * @param array $items Items attributes
+     *
+     * @return $this  Chainable
+     */
+    public function item($items)
+    {
+        $this->item['weightInKG'] = $items['weight'];
 
-		if (isset($service['AdditionalInsurance']))
-		{
-			$this->service['AdditionalInsurance'] = ['@active' => 1, '@insuranceAmount' => $service['AdditionalInsurance']];
-		}
+        if (isset($items['length'])) {
+            $this->item['lengthInCM'] = $items['length'];
+        }
 
-		if (isset($service['BulkyGoods']))
-		{
-			$this->service['BulkyGoods'] = ['@active' => $service['BulkyGoods']];
-		}
+        if (isset($items['width'])) {
+            $this->item['widthInCM'] = $items['width'];
+        }
 
-		return $this;
-	}
+        if (isset($items['height'])) {
+            $this->item['heightInCM'] = $items['height'];
+        }
 
-	/**
-	 * Get service information
-	 *
-	 * @return array
-	 */
-	public function getService()
-	{
-		return $this->service;
-	}
+        return $this;
+    }
 
-	/**
-	 * Optional service
-	 *
-	 * @param   string  $email  Email for sending notification
-	 *
-	 * @return  $this
-	 */
-	public function notify($email) {
-		$this->notification = ['recipientEmailAddress' => $email];
+    /**
+     * Get shipment items
+     *
+     * @return array
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
 
-		return $this;
-	}
+    /**
+     * This service is an optional
+     *
+     * @param  array $service Array of service information
+     *
+     * @return $this
+     */
+    public function service($service)
+    {
+        if (isset($service['VisualCheckOfAge'])) {
+            $this->service['VisualCheckOfAge'] = ['@active' => 1, '@type' => $service['VisualCheckOfAge']];
+        }
 
-	/**
-	 * Get notification information
-	 *
-	 * @return array
-	 */
-	public function getNotification()
-	{
-		return $this->notification;
-	}
+        if (isset($service['PreferredLocation'])) {
+            $this->service['PreferredLocation'] = ['@active' => 1, '@details' => $service['PreferredLocation']];
+        }
 
-	/**
-	 * Get shipment information
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	public function getInfo()
-	{
-		if (empty($this->info))
-		{
-			throw new \Exception('Invalid info. Set info using (new Shipper)->setInfo($info);');
-		}
+        if (isset($service['PreferredNeighbour'])) {
+            $this->service['PreferredNeighbour'] = ['@active' => 1, '@details' => $service['PreferredNeighbour']];
+        }
 
-		$shipment = $this->info;
-		$shipment['ShipmentItem'] = $this->getItem();
+        if (isset($service['GoGreen'])) {
+            $this->service['GoGreen'] = ['@active' => $service['GoGreen']];
+        }
 
-		if (!empty($this->getService()))
-		{
-			$shipment['Service'] = $this->getService();
-		}
+        if (isset($service['Personally'])) {
+            $this->service['Personally'] = ['@active' => $service['Personally']];
+        }
 
-		$shipment['Notification'] = $this->getNotification();
+        if (isset($service['CashOnDelivery'])) {
+            $this->service['CashOnDelivery'] = ['@active' => 1, '@codAmount' => $service['CashOnDelivery']];
+        }
 
-		return $shipment;
-	}
+        if (isset($service['AdditionalInsurance'])) {
+            $this->service['AdditionalInsurance'] = ['@active' => 1, '@insuranceAmount' => $service['AdditionalInsurance']];
+        }
+
+        if (isset($service['BulkyGoods'])) {
+            $this->service['BulkyGoods'] = ['@active' => $service['BulkyGoods']];
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get service information
+     *
+     * @return array
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * Optional service
+     *
+     * @param   string $email Email for sending notification
+     *
+     * @return  $this
+     */
+    public function notify($email)
+    {
+        $this->notification = ['recipientEmailAddress' => $email];
+
+        return $this;
+    }
+
+    /**
+     * Get notification information
+     *
+     * @return array
+     */
+    public function getNotification()
+    {
+        return $this->notification;
+    }
+
+    /**
+     * Get package product
+     * code depending on
+     * shipping country
+     *
+     * @return string
+     */
+    public static function getProductCode($shippCountryCode)
+    {
+        if ($shippCountryCode == self::NATIONAL_SHIPP_COUNTRY) {
+            return self::NATIONAL_PRODUCT_CODE;
+        }
+        return self::INTERNATIONAL_PRODUCT_CODE;
+    }
+
+    /**
+     * Set package EKP
+     * for national shipments
+     *
+     * @return string
+     */
+
+    public static function setNational($ekp)
+    {
+        return self::$nationalEkp = $ekp;
+    }
+
+
+    /**
+     * Set package EKP
+     * for international shipments
+     *
+     * @return string
+     */
+
+    public static function setInternational($ekp)
+    {
+        return self::$interNationalEkp = $ekp;
+    }
+
+    /**
+     * Get package EKP
+     * cod depending on
+     * shipping country
+     *
+     * @return string
+     */
+    public static function getEkp($shippCountryCode)
+    {
+        if ($shippCountryCode == self::NATIONAL_SHIPP_COUNTRY) {
+            return self::$nationalEkp;
+        }
+        return self::$interNationalEkp;
+    }
+
+
+    /**
+     * Get shipment information
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getInfo()
+    {
+        if (empty($this->info)) {
+            throw new \Exception('Invalid info. Set info using (new Shipper)->setInfo($info);');
+        }
+
+        $shipment = $this->info;
+        $shipment['ShipmentItem'] = $this->getItem();
+
+        if (!empty($this->getService())) {
+            $shipment['Service'] = $this->getService();
+        }
+
+        $shipment['Notification'] = $this->getNotification();
+
+        return $shipment;
+    }
 }

@@ -6,7 +6,8 @@ require_once __DIR__ . '/./vendor/autoload.php'; // Autoload files using Compose
  * requires DHL developer account
  *
  * Send shipment data to service
- * and request a label for the shipment
+ * and request a label for the shipment for
+ * shipment inside Germany
  */
 
 use DHL\Data\Shipper;
@@ -47,14 +48,18 @@ $customer_details = [
     'phone' => '55678894',
     'contact_person' => 'Elijah	Waters',
     'comment' => '',
+    'country' => 'Deutschland',
+    'countryISOCode' => 'DE',
 ];
 
 $receiver = new Receiver($customer_details);
 
+Shipment::setNational('22222222220101');
+
 $detail = new ShipmentDetail(
     [
-        'product' => 'V01PAK',
-        'accountNumber' => '22222222220101',
+        'product' => ShipmentDetail::getProductCode('DE'),
+        'accountNumber' => Shipment::getEkp('DE'),
         'shipmentDate' => date('Y-m-d'),
     ]
 );

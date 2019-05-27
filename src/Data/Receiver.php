@@ -51,8 +51,8 @@ class Receiver
 				'zip'                    => $this->info['zip'],
 				'city'                   => $this->info['city'],
 				'Origin'                 => [
-					'country'        => 'Deutschland',
-					'countryISOCode' => 'DE',
+					'country'        => $this->info['country'],
+					'countryISOCode' => $this->info['countryISOCode'],
 					// 'state'          => '' // optional
 				]
 			],
